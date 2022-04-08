@@ -8,12 +8,11 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: "[name][contenthash].js",
         clean: true,
-        assetModuleFilename: '[hash][ext][query]'
+        assetModuleFilename: 'assets/[name][ext]' // hash
     },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'src/')
-
         },
         extensions: ['*', '.js','.tsx', '.ts']
     },
@@ -30,11 +29,13 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.scss$/,
+                test: /\.(sc|c)ss$/,
                 use: ['style-loader', 'css-loader', {
                     loader: 'sass-loader',
                     options: {
-                        additionalData: `@import '@/styles/variables.scss';`,
+                        additionalData: `
+                        @import '@/styles/mixin.scss';
+                        `,
                     }
                 }],
             },
@@ -44,7 +45,7 @@ module.exports = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-typescript']
+                        presets: ['@babel/preset-env']
                     }
                 }]
             },
@@ -59,16 +60,8 @@ module.exports = {
             },
             {
                 test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-                use: [
-                  {
-                    loader: 'file-loader',
-                    options: {
-                      name: '[name].[ext]',
-                      outputPath: 'fonts/'
-                    }
-                  }
-                ]
-              }
+                type: 'asset/resource',
+            }
         ]
     },
     plugins: [
@@ -76,6 +69,6 @@ module.exports = {
             template: 'src/imarket.html',
             title: 'IMARKETING Inc',
             filename: 'index.html'
-        })
+        }),
     ]
 }

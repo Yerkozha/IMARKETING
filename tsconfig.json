@@ -3,6 +3,7 @@
         "rootDir": "./src",
         "outDir": "./dist",
         "allowSyntheticDefaultImports" : true,
-        "esModuleInterop" : true
+        "esModuleInterop" : true,
+        "target": "es5"
     }
 }
